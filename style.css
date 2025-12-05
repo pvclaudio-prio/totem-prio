@@ -5,15 +5,17 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   overflow: hidden;
   background: none;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
 }
 
-/* VÍDEO EM TELA CHEIA */
+/* VÍDEO DE FUNDO EM TELA CHEIA */
 #background-video {
   position: fixed;
   top: 0;
@@ -22,15 +24,15 @@ html, body {
   height: 100vh;
   object-fit: cover;
   z-index: 1;
-  transition: filter 0.3s ease;
+  transition: filter 0.25s ease;
 }
 
-/* Blur leve só quando menu / conteúdo estiver ativo */
+/* Aplicado quando menu/conteúdo estão ativos */
 .video-blurred {
-  filter: blur(2px);
+  filter: blur(3px);
 }
 
-/* Overlays */
+/* Overlays principais */
 #menu-overlay,
 #content-overlay {
   position: fixed;
@@ -38,12 +40,14 @@ html, body {
   z-index: 2;
 }
 
-/* Esconder elementos */
 .hidden {
   display: none !important;
 }
 
-/* MENU PRINCIPAL */
+/* ===========================
+   MENU PRINCIPAL (CARDÁPIO / PESQUISA)
+   =========================== */
+
 .menu-container {
   width: 100%;
   height: 100%;
@@ -51,39 +55,53 @@ html, body {
   gap: 3rem;
   justify-content: center;
   align-items: center;
+  /* leve véu para destacar os botões */
   background: rgba(0, 0, 0, 0.08);
 }
 
 .menu-button {
-  padding: 2.5rem 3.5rem;
+  padding: 2.3rem 3.2rem;
   min-width: 260px;
-  font-size: 1.8rem;
-  border-radius: 1.5rem;
+  font-size: 1.7rem;
+  border-radius: 1.4rem;
   border: none;
   cursor: pointer;
   font-weight: 600;
   letter-spacing: 0.03em;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
 }
 
+/* PRIO-style: azul petróleo discreto */
 .menu-button.primary {
-  background: linear-gradient(135deg, #00b4d8, #48cae4);
-  color: #0f172a;
+  background: linear-gradient(135deg, #005f8f, #0077b6);
+  color: #f1f5f9;
+  border: none;
+  opacity: 0.94;
 }
 
+/* Botão mais sóbrio para pesquisa */
 .menu-button.secondary {
-  background: rgba(15, 23, 42, 0.96);
-  color: #e5e7eb;
-  border: 1px solid rgba(148, 163, 184, 0.8);
+  background: rgba(15, 23, 42, 0.9);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  opacity: 0.94;
+}
+
+.menu-button:hover {
+  opacity: 1;
+  transform: scale(1.03);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
 }
 
 .menu-button:active {
-  transform: translateY(3px) scale(0.98);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+  transform: scale(0.97);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
 }
 
-/* ---------- CONTEÚDO (CARDÁPIO / PESQUISA) ---------- */
+/* ===========================
+   CONTEÚDO (CARDÁPIO / PESQUISA)
+   =========================== */
 
 #content-overlay {
   display: flex;
@@ -91,13 +109,13 @@ html, body {
   background: #020617; /* quase preto azulado */
 }
 
+/* Head nas cores da PRIO */
 .content-header {
   height: 64px;
   display: flex;
   align-items: center;
   padding: 0 24px;
   gap: 16px;
-  /* gradiente azul no estilo PRIO */
   background: linear-gradient(90deg, #001a33, #003f88, #0077b6);
   color: #e5e7eb;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
@@ -130,3 +148,22 @@ html, body {
   border: none;
 }
 
+/* ===========================
+   RESPONSIVO (por segurança)
+   =========================== */
+@media (max-width: 768px) {
+  .menu-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .menu-button {
+    padding: 1.6rem 2.2rem;
+    font-size: 1.4rem;
+    min-width: 220px;
+  }
+
+  #content-frame {
+    height: calc(100vh - 64px);
+  }
+}
