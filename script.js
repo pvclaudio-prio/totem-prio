@@ -7,7 +7,7 @@ const CARDAPIO_URL =
 
 const PESQUISA_URL = "https://forms.office.com/r/ir14RyyP54";
 
-const INACTIVITY_TIMEOUT = 90 * 1000; // 90 segundos
+const INACTIVITY_TIMEOUT = 30 * 1000; // 30 segundos
 
 
 
