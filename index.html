@@ -7,16 +7,11 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Vídeo de fundo -->
+  <!-- Vídeo de fundo em tela cheia -->
   <video id="background-video" autoplay muted loop playsinline>
-    <source src="videos/video1.mp4" type="video/mp4" />
+    <source id="video-source" src="videos/video1.mp4" type="video/mp4" />
+    Seu navegador não suporta vídeo em HTML5.
   </video>
-
-  <!-- Barra superior institucional (logo + título) -->
-  <header id="top-bar">
-    <div class="logo">LOGO</div>
-    <div class="title">Totem Institucional</div>
-  </header>
 
   <!-- Overlay com os botões (Cardápio / Pesquisa) -->
   <div id="menu-overlay" class="hidden">

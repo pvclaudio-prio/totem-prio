@@ -14,7 +14,6 @@ const INACTIVITY_TIMEOUT = 90 * 1000; // 90 segundos
 // PLAYLIST DE VÍDEOS
 // ================================
 
-// Adicione quantos vídeos quiser nesta lista
 const videoPlaylist = [
   "videos/video1.mp4",
   "videos/video2.mp4",
@@ -66,21 +65,23 @@ function setState(newState) {
 
   switch (currentState) {
     case STATES.IDLE:
+      // Somente o vídeo (sem blur)
       menuOverlay.classList.add("hidden");
       contentOverlay.classList.add("hidden");
       videoEl.classList.remove("video-blurred");
-
       // limpa o iframe
       contentFrame.src = "about:blank";
       break;
 
     case STATES.MENU:
+      // Mostra botões sobre o vídeo (com blur)
       menuOverlay.classList.remove("hidden");
       contentOverlay.classList.add("hidden");
       videoEl.classList.add("video-blurred");
       break;
 
     case STATES.CONTENT:
+      // Mostra conteúdo em iframe (com blur no vídeo de fundo)
       menuOverlay.classList.add("hidden");
       contentOverlay.classList.remove("hidden");
       videoEl.classList.add("video-blurred");
@@ -116,9 +117,11 @@ function resetInactivityTimer() {
   }, INACTIVITY_TIMEOUT);
 }
 
-function handleUserInteraction() {
+// Só queremos abrir o menu quando clicar/toque na tela
+function handleUserInteraction(event) {
   resetInactivityTimer();
 
+  // Se estiver em modo vídeo, ao clicar/tocar abre o menu
   if (currentState === STATES.IDLE) {
     setState(STATES.MENU);
   }
@@ -130,30 +133,33 @@ function handleUserInteraction() {
 // ================================
 
 function setupEventListeners() {
-  // qualquer interação do usuário
-  ["click", "touchstart", "mousemove", "keydown"].forEach(evt =>
+  // Apenas click e touchstart disparam abertura do menu
+  ["click", "touchstart"].forEach(evt =>
     document.addEventListener(evt, handleUserInteraction)
   );
 
-  // botão: cardápio
+  // Botão: cardápio
   btnCardapio.addEventListener("click", e => {
     e.stopPropagation();
+    resetInactivityTimer();
     contentTitle.textContent = "Cardápio";
     contentFrame.src = CARDAPIO_URL;
     setState(STATES.CONTENT);
   });
 
-  // botão: pesquisa
+  // Botão: pesquisa
   btnPesquisa.addEventListener("click", e => {
     e.stopPropagation();
+    resetInactivityTimer();
     contentTitle.textContent = "Pesquisa de Satisfação";
     contentFrame.src = PESQUISA_URL;
     setState(STATES.CONTENT);
   });
 
-  // botão: voltar
+  // Botão: voltar
   btnVoltar.addEventListener("click", e => {
     e.stopPropagation();
+    resetInactivityTimer();
     setState(STATES.IDLE);
   });
 }
@@ -167,7 +173,7 @@ function init() {
   console.log("Sistema iniciado.");
   setupVideoPlaylist();
   setupEventListeners();
-  setState(STATES.IDLE);     // começa no modo vídeo
+  setState(STATES.IDLE);     // começa no modo vídeo (sem blur)
   resetInactivityTimer();
 }
 
