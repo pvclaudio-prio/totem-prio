@@ -1,18 +1,19 @@
 // ========================================
-// CONFIGURAÇÕES DO SISTEMA (SEUS LINKS)
+// CONFIGURAÇÕES (seus links)
 // ========================================
 
 const CARDAPIO_URL =
   "https://apps.powerapps.com/play/e/default-90970b25-7f3c-48b3-bf2a-99c055107797/a/80653f2e-306c-4dad-a6c8-e8d914f8dac1?tenantId=90970b25-7f3c-48b3-bf2a-99c055107797&hint=961d2266-9a54-4902-8535-7c415cd5deba&sourcetime=1748260909347&source=portal&hidenavbar=true";
 
 const PESQUISA_URL =
-  "https://forms.office.com/Pages/ResponsePage.aspx?id=JQuXkDx_s0i_KpnAVRB3l_rsk8BvsM9AvDuc1kudjcdUOUZHNjRKM09NQktKVENZWVhaUU1GWElQNi4u";
+  "https://forms.office.com/r/ir14RyyP54";
 
-// Tempo de inatividade (ms)
-const INACTIVITY_TIMEOUT = 90 * 1000; // 90 segundos
+const INACTIVITY_TIMEOUT = 90 * 1000; // 90s
+
+
 
 // ========================================
-// PLAYLIST DE VÍDEOS
+// PLAYLIST DE VÍDEOS (se quiser, ajuste os nomes)
 // ========================================
 
 const videoPlaylist = [
@@ -23,18 +24,20 @@ const videoPlaylist = [
 
 let currentVideoIndex = 0;
 
+
 // ========================================
 // ESTADOS
 // ========================================
 
 const STATES = {
-  IDLE: "idle",       // Vídeo passando
-  MENU: "menu",       // Menu aberto
-  CONTENT: "content"  // Cardápio ou Pesquisa
+  IDLE: "idle",       // vídeo passando
+  MENU: "menu",       // menu com botões
+  CONTENT: "content"  // cardápio / pesquisa
 };
 
 let currentState = STATES.IDLE;
 let inactivityTimer = null;
+
 
 // ========================================
 // ELEMENTOS
@@ -51,6 +54,7 @@ const btnCardapio = document.getElementById("btn-cardapio");
 const btnPesquisa = document.getElementById("btn-pesquisa");
 const btnVoltar = document.getElementById("btn-voltar");
 const contentTitle = document.getElementById("content-title");
+
 
 // ========================================
 // TROCA DE ESTADO
@@ -82,24 +86,29 @@ function setState(newState) {
   }
 }
 
+
 // ========================================
-// PLAYLIST AUTOMÁTICA
+// PLAYLIST (não mexe no que já está funcionando aí)
 // ========================================
 
 function setupVideoPlaylist() {
-  // começa do primeiro vídeo explicitamente
+  // Garante que começa no vídeo 0
   currentVideoIndex = 0;
-  videoSource.src = videoPlaylist[currentVideoIndex];
-  videoEl.load();
-  videoEl.play().catch(() => {});
+  if (videoPlaylist.length > 0) {
+    videoSource.src = videoPlaylist[currentVideoIndex];
+    videoEl.load();
+    videoEl.play().catch(() => {});
+  }
 
   videoEl.addEventListener("ended", () => {
+    if (videoPlaylist.length === 0) return;
     currentVideoIndex = (currentVideoIndex + 1) % videoPlaylist.length;
     videoSource.src = videoPlaylist[currentVideoIndex];
     videoEl.load();
     videoEl.play().catch(() => {});
   });
 }
+
 
 // ========================================
 // INATIVIDADE
@@ -113,22 +122,31 @@ function resetInactivityTimer() {
   }, INACTIVITY_TIMEOUT);
 }
 
-function handleUserInteraction() {
+/**
+ * Clique / toque global:
+ * - Quando está em IDLE -> abre o menu
+ * - Em outros estados -> só reseta o timer
+ */
+function handleGlobalInteraction() {
   resetInactivityTimer();
+
   if (currentState === STATES.IDLE) {
     setState(STATES.MENU);
   }
 }
+
 
 // ========================================
 // EVENTOS
 // ========================================
 
 function setupEventListeners() {
+  // Clique/toque em qualquer lugar da tela
   ["click", "touchstart"].forEach(evt =>
-    document.addEventListener(evt, handleUserInteraction)
+    document.addEventListener(evt, handleGlobalInteraction)
   );
 
+  // Clique nos botões do menu (impede propagação pra não reabrir/fechar indevido)
   btnCardapio.addEventListener("click", e => {
     e.stopPropagation();
     resetInactivityTimer();
@@ -145,19 +163,30 @@ function setupEventListeners() {
     setState(STATES.CONTENT);
   });
 
+  // Botão VOLTAR no head
   btnVoltar.addEventListener("click", e => {
     e.stopPropagation();
     resetInactivityTimer();
     setState(STATES.IDLE);
   });
+
+  // 🔹 Clique fora dos botões fecha o menu
+  menuOverlay.addEventListener("click", e => {
+    // se clicou diretamente no overlay (fundo), e não no container/botão
+    if (e.target === menuOverlay) {
+      resetInactivityTimer();
+      setState(STATES.IDLE);
+    }
+  });
 }
+
 
 // ========================================
 // INICIALIZAÇÃO
 // ========================================
 
 function init() {
-  setupVideoPlaylist();
+  setupVideoPlaylist();   // respeita o que você já tem de vídeos
   setupEventListeners();
   setState(STATES.IDLE);
   resetInactivityTimer();

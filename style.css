@@ -83,31 +83,39 @@ html, body {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
 }
 
-/* CONTEÚDO (CARDÁPIO / PESQUISA) */
+/* ---------- CONTEÚDO (CARDÁPIO / PESQUISA) ---------- */
+
 #content-overlay {
   display: flex;
   flex-direction: column;
-  background: rgba(0, 0, 0, 0.1);
+  background: #020617; /* quase preto azulado */
 }
 
 .content-header {
-  height: 56px;
+  height: 64px;
   display: flex;
   align-items: center;
-  padding: 0 16px;
-  background: linear-gradient(90deg, #020617, #1d4ed8);
+  padding: 0 24px;
+  gap: 16px;
+  /* gradiente azul no estilo PRIO */
+  background: linear-gradient(90deg, #001a33, #003f88, #0077b6);
   color: #e5e7eb;
-  gap: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
 }
 
 .back-button {
-  padding: 0.4rem 1rem;
+  padding: 0.55rem 1.2rem;
   border-radius: 999px;
   border: 1px solid rgba(226, 232, 240, 0.9);
-  background: transparent;
+  background: rgba(15, 23, 42, 0.3);
   color: inherit;
   cursor: pointer;
   font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.back-button:hover {
+  background: rgba(15, 23, 42, 0.6);
 }
 
 #content-title {
@@ -115,26 +123,10 @@ html, body {
   font-size: 1rem;
 }
 
+/* iframe ocupa o resto da tela */
 #content-frame {
   width: 100vw;
-  height: calc(100vh - 56px);
+  height: calc(100vh - 64px);
   border: none;
 }
 
-/* Responsivo (só por segurança) */
-@media (max-width: 768px) {
-  .menu-container {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .menu-button {
-    padding: 1.5rem 2rem;
-    font-size: 1.4rem;
-    min-width: 220px;
-  }
-
-  #content-frame {
-    height: calc(100vh - 56px);
-  }
-}
