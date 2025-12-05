@@ -14,7 +14,7 @@ html, body {
   background: #000;
 }
 
-/* Vídeo de fundo ocupando a tela toda */
+/* VÍDEO EM TELA CHEIA */
 #background-video {
   position: fixed;
   top: 0;
@@ -26,9 +26,10 @@ html, body {
   transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
-/* Quando há overlay (menu ou conteúdo), deixamos o vídeo desfocado/escuro */
+/* BLUR QUANDO TEM OVERLAY (MENU OU CONTEÚDO) */
 .video-blurred {
-  filter: blur(5px) brightness(0.4);
+  /* menos blur e mais brilho para não ficar tão escuro */
+  filter: blur(3px) brightness(0.8);
 }
 
 /* Overlays por cima do vídeo */
@@ -39,7 +40,7 @@ html, body {
   z-index: 2;
 }
 
-/* Classe utilitária para esconder elementos */
+/* Esconder elementos */
 .hidden {
   display: none;
 }
@@ -52,7 +53,8 @@ html, body {
   gap: 3rem;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle at center, rgba(0, 64, 112, 0.6), rgba(0, 16, 32, 0.9));
+  /* overlay suave, só para destacar os botões */
+  background: rgba(0, 0, 0, 0.25);
 }
 
 .menu-button {
@@ -69,13 +71,13 @@ html, body {
 }
 
 .menu-button.primary {
-  background: linear-gradient(135deg, #0077b6, #00b4d8);
-  color: #f5f7fa;
+  background: linear-gradient(135deg, #00b4d8, #48cae4);
+  color: #0f172a;
 }
 
 .menu-button.secondary {
-  background: rgba(10, 23, 45, 0.9);
-  color: #f5f7fa;
+  background: rgba(15, 23, 42, 0.95);
+  color: #e5e7eb;
   border: 1px solid rgba(148, 163, 184, 0.8);
 }
 
@@ -125,7 +127,7 @@ html, body {
   border: none;
 }
 
-/* Ajustes para telas menores (se um dia usar em outro contexto) */
+/* Responsivo (só por segurança) */
 @media (max-width: 768px) {
   .menu-container {
     flex-direction: column;

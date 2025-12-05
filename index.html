@@ -7,13 +7,13 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Vídeo de fundo em tela cheia -->
+  <!-- VÍDEO EM TELA CHEIA -->
   <video id="background-video" autoplay muted loop playsinline>
     <source id="video-source" src="videos/video1.mp4" type="video/mp4" />
     Seu navegador não suporta vídeo em HTML5.
   </video>
 
-  <!-- Overlay com os botões (Cardápio / Pesquisa) -->
+  <!-- MENU (aparece só quando clicar na tela) -->
   <div id="menu-overlay" class="hidden">
     <div class="menu-container">
       <button id="btn-cardapio" class="menu-button primary">
@@ -25,7 +25,7 @@
     </div>
   </div>
 
-  <!-- Overlay para exibir conteúdo externo (cardápio/formulário) -->
+  <!-- CONTEÚDO (cardápio / pesquisa em iframe) -->
   <div id="content-overlay" class="hidden">
     <div class="content-header">
       <button id="btn-voltar" class="back-button">⟵ Voltar</button>
