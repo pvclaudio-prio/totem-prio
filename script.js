@@ -1,8 +1,7 @@
 // ========================================
 // CONFIGURAÇÕES (seus links)
 // ========================================
-const CARDAPIO_URL =
-  "https://stgpriobi.blob.core.windows.net/cardapio-prio/cardapio.pdf#zoom=134";
+const CARDAPIO_URL = "cardapio/cardapio.pdf#zoom=134";
 
 // Adicionei &embed=true para o Forms respeitar o modo embutido
 const PESQUISA_URL =
