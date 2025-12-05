@@ -3,7 +3,7 @@
 // ========================================
 
 const CARDAPIO_URL =
-  "https://apps.powerapps.com/play/e/default-90970b25-7f3c-48b3-bf2a-99c055107797/a/80653f2e-306c-4dad-a6c8-e8d914f8dac1?tenantId=90970b25-7f3c-48b3-bf2a-99c055107797&hint=961d2266-9a54-4902-8535-7c415cd5deba&sourcetime=1748260909347&source=portal&hidenavbar=true";
+  "https://stgpriobi.blob.core.windows.net/cardapio-prio/cardapio.pdf";
 
 const PESQUISA_URL = "https://forms.office.com/r/ir14RyyP54";
 
