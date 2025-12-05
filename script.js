@@ -6,7 +6,7 @@ const CARDAPIO_URL =
   "https://apps.powerapps.com/play/e/default-90970b25-7f3c-48b3-bf2a-99c055107797/a/80653f2e-306c-4dad-a6c8-e8d914f8dac1?tenantId=90970b25-7f3c-48b3-bf2a-99c055107797&hint=961d2266-9a54-4902-8535-7c415cd5deba&sourcetime=1748260909347&source=portal&hidenavbar=true";
 
 const PESQUISA_URL =
-  "https://forms.office.com/Pages/DesignPageV2.aspx?prevorigin=shell&origin=NeoPortalPage&subpage=design&id=JQuXkDx_s0i_KpnAVRB3l_rsk8BvsM9AvDuc1kudjcdUQ01GM0RDRzJSQlFBWDVMUFAwRlAzU1dOSi4u";
+  "https://forms.office.com/Pages/DesignPageV2.aspx?prevorigin=shell&origin=NeoPortalPage&subpage=design&id=JQuXkDx_s0i_KpnAVRB3l_rsk8BvsM9AvDuc1kudjcdUOUZHNjRKM09NQktKVENZWVhaUU1GWElQNi4u";
 
 // Tempo de inatividade (ms)
 const INACTIVITY_TIMEOUT = 90 * 1000; // 90 segundos
