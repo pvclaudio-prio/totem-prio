@@ -24,7 +24,6 @@ body {
   height: 100vh;
   object-fit: cover;
   z-index: 1;
-  /* mantemos a transição caso queira no futuro, mas sem blur */
   transition: filter 0.25s ease;
 }
 
@@ -33,7 +32,7 @@ body {
   filter: none !important;
 }
 
-/* Overlays principais */
+/* Overlays */
 #menu-overlay,
 #content-overlay {
   position: fixed;
@@ -46,7 +45,7 @@ body {
 }
 
 /* ================================
-   MENU PRINCIPAL (sempre visível no modo vídeo)
+   MENU PRINCIPAL (botões sobre o vídeo)
    ================================ */
 
 .menu-container {
@@ -56,7 +55,7 @@ body {
   gap: 3rem;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.08); /* leve véu por cima do vídeo */
+  background: rgba(0, 0, 0, 0.08); /* leve véu para destacar botões */
 }
 
 .menu-button {

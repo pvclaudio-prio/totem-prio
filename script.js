@@ -4,8 +4,9 @@
 const CARDAPIO_URL =
   "https://stgpriobi.blob.core.windows.net/cardapio-prio/cardapio.pdf#zoom=134";
 
+// Adicionei &embed=true para o Forms respeitar o modo embutido
 const PESQUISA_URL =
-  "https://forms.office.com/Pages/ResponsePage.aspx?id=JQuXkDx_s0i_KpnAVRB3l2Tj7QFwHDhEvtEfXQO1KuNUM1M0NUZaSFFCR1Y0Q01EWUZTOERXM1NWVi4u";
+  "https://forms.office.com/Pages/ResponsePage.aspx?id=JQuXkDx_s0i_KpnAVRB3l2Tj7QFwHDhEvtEfXQO1KuNUM1M0NUZaSFFCR1Y0Q01EWUZTOERXM1NWVi4u&embed=true";
 
 const INACTIVITY_TIMEOUT = 30 * 1000; // 30 segundos
 
@@ -29,10 +30,11 @@ let currentVideoIndex = 0;
 
 
 // ========================================
-// ESTADOS — SEM MENU!
+// ESTADOS (sem MENU, botões sempre no IDLE)
+// ========================================
 const STATES = {
-  IDLE: "idle",       // Vídeo + botões sempre visíveis
-  CONTENT: "content"  // Visualizando cardápio/formulário
+  IDLE: "idle",       // vídeo + botões
+  CONTENT: "content"  // cardápio / pesquisa
 };
 
 let currentState = STATES.IDLE;
@@ -46,7 +48,7 @@ let inactivityTimer = null;
 const videoEl = document.getElementById("background-video");
 const videoSource = document.getElementById("video-source");
 
-const menuOverlay = document.getElementById("menu-overlay"); // sempre visível no IDLE
+const menuOverlay = document.getElementById("menu-overlay");
 const contentOverlay = document.getElementById("content-overlay");
 const contentFrame = document.getElementById("content-frame");
 
@@ -57,7 +59,7 @@ const btnVoltar = document.getElementById("btn-voltar");
 
 
 // ========================================
-// TROCA DE ESTADO FINAL
+// TROCA DE ESTADO
 // ========================================
 function setState(newState) {
   currentState = newState;
@@ -65,7 +67,7 @@ function setState(newState) {
 
   switch (newState) {
     case STATES.IDLE:
-      // Mostrar botões, esconder conteúdo
+      // Mostrar botões sobre o vídeo
       menuOverlay.classList.remove("hidden");
       contentOverlay.classList.add("hidden");
       videoEl.classList.remove("video-blurred");
@@ -73,7 +75,7 @@ function setState(newState) {
       break;
 
     case STATES.CONTENT:
-      // Esconder botões e mostrar conteúdo + botão voltar
+      // Mostrar iframe + botão voltar, esconder botões principais
       menuOverlay.classList.add("hidden");
       contentOverlay.classList.remove("hidden");
       videoEl.classList.remove("video-blurred");
@@ -105,18 +107,18 @@ function setupVideoPlaylist() {
 
 
 // ========================================
-// INATIVIDADE — SEM MENU
+// INATIVIDADE
 // ========================================
 function resetInactivityTimer() {
   if (inactivityTimer) clearTimeout(inactivityTimer);
 
   inactivityTimer = setTimeout(() => {
-    // Em qualquer estado retorna aos botões + vídeo
+    // volte sempre para vídeo + botões
     setState(STATES.IDLE);
   }, INACTIVITY_TIMEOUT);
 }
 
-// Clique global apenas reseta o timer
+// Clique global só reseta o timer
 function handleGlobalInteraction() {
   resetInactivityTimer();
 }
@@ -127,13 +129,13 @@ function handleGlobalInteraction() {
 // EVENTOS
 // ========================================
 function setupEventListeners() {
-  // Reset de inatividade ao clicar em qualquer lugar
-  ["click", "touchstart"].forEach(evt =>
+  // Clique/toque em qualquer lugar reseta timer
+  ["click", "touchstart"].forEach((evt) =>
     document.addEventListener(evt, handleGlobalInteraction)
   );
 
   // Botão: Cardápio
-  btnCardapio.addEventListener("click", e => {
+  btnCardapio.addEventListener("click", (e) => {
     e.stopPropagation();
     resetInactivityTimer();
     contentFrame.src = CARDAPIO_URL;
@@ -141,15 +143,15 @@ function setupEventListeners() {
   });
 
   // Botão: Pesquisa
-  btnPesquisa.addEventListener("click", e => {
+  btnPesquisa.addEventListener("click", (e) => {
     e.stopPropagation();
     resetInactivityTimer();
     contentFrame.src = PESQUISA_URL;
     setState(STATES.CONTENT);
   });
 
-  // Botão: Voltar
-  btnVoltar.addEventListener("click", e => {
+  // Botão: Voltar (em baixo)
+  btnVoltar.addEventListener("click", (e) => {
     e.stopPropagation();
     resetInactivityTimer();
     setState(STATES.IDLE);

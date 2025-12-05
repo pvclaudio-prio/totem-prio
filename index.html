@@ -1,40 +1,50 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <title>Totem Institucional</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <!-- VÍDEO EM TELA CHEIA -->
-  <video id="background-video" autoplay muted playsinline>
-    <source id="video-source" src="videos/video1.mp4" type="video/mp4" />
-    Seu navegador não suporta vídeo em HTML5.
-  </video>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Totem Institucional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- VÍDEO EM TELA CHEIA -->
+    <video id="background-video" autoplay muted playsinline>
+      <source
+        id="video-source"
+        src="videos/eat_pray_love_prio_c2_1080p_vert.mp4"
+        type="video/mp4"
+      />
+      Seu navegador não suporta vídeo em HTML5.
+    </video>
 
-  <!-- MENU (só quando clicar na tela) -->
-  <div id="menu-overlay" class="hidden">
-    <div class="menu-container">
-      <button id="btn-cardapio" class="menu-button primary">
-        🍽️ Ver Cardápio
-      </button>
-      <button id="btn-pesquisa" class="menu-button secondary">
-        📝 Responder Pesquisa
-      </button>
+    <!-- MENU (sempre visível no modo IDLE) -->
+    <div id="menu-overlay">
+      <div class="menu-container">
+        <button id="btn-cardapio" class="menu-button primary">
+          🍽️ Ver Cardápio
+        </button>
+        <button id="btn-pesquisa" class="menu-button secondary">
+          📝 Responder Pesquisa
+        </button>
+      </div>
     </div>
-  </div>
 
     <!-- CONTEÚDO (Cardápio / Pesquisa) -->
     <div id="content-overlay" class="hidden">
-    <iframe id="content-frame" src="" frameborder="0"></iframe>
-    <div id="content-back-container">
+      <iframe
+        id="content-frame"
+        src=""
+        frameborder="0"
+        sandbox="allow-scripts allow-forms allow-same-origin allow-downloads allow-top-navigation-by-user-activation"
+      ></iframe>
+
+      <div id="content-back-container">
         <button id="btn-voltar" class="menu-button back-button-large">
-        ⟵ Voltar
+          ⟵ Voltar ao Vídeo
         </button>
-    </div>
+      </div>
     </div>
 
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
