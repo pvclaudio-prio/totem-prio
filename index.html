@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Totem Institucional</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Vídeo de fundo -->
+  <video id="background-video" autoplay muted loop playsinline>
+    <source src="videos/video1.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Barra superior institucional (logo + título) -->
+  <header id="top-bar">
+    <div class="logo">LOGO</div>
+    <div class="title">Totem Institucional</div>
+  </header>
+
+  <!-- Overlay com os botões (Cardápio / Pesquisa) -->
+  <div id="menu-overlay" class="hidden">
+    <div class="menu-container">
+      <button id="btn-cardapio" class="menu-button primary">
+        🍽️ Ver Cardápio
+      </button>
+      <button id="btn-pesquisa" class="menu-button secondary">
+        📝 Responder Pesquisa
+      </button>
+    </div>
+  </div>
+
+  <!-- Overlay para exibir conteúdo externo (cardápio/formulário) -->
+  <div id="content-overlay" class="hidden">
+    <div class="content-header">
+      <button id="btn-voltar" class="back-button">⟵ Voltar</button>
+      <span id="content-title">Conteúdo</span>
+    </div>
+    <iframe id="content-frame" src="" frameborder="0"></iframe>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
