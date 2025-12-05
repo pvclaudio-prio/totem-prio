@@ -1,4 +1,3 @@
-/* Reset básico */
 * {
   margin: 0;
   padding: 0;
@@ -9,12 +8,10 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #f5f7fa;
-  background: #000;
+  background: black;
 }
 
-/* VÍDEO EM TELA CHEIA */
+/* VÍDEO */
 #background-video {
   position: fixed;
   top: 0;
@@ -23,90 +20,51 @@ html, body {
   height: 100vh;
   object-fit: cover;
   z-index: 1;
-  transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
-/* QUANDO TIVER OVERLAY: só um blur leve, SEM ESCURECER */
+/* SEM QUALQUER ESCURECIMENTO */
 .video-blurred {
-  filter: blur(2px) brightness(1);
+  filter: none !important;
 }
 
-/* Overlays por cima do vídeo */
+/* OVERLAYS */
+.hidden {
+  display: none !important;
+}
+
 #menu-overlay,
 #content-overlay {
   position: fixed;
   inset: 0;
   z-index: 2;
+  background: none !important;
 }
 
-/* Esconder elementos */
-.hidden {
-  display: none;
-}
-
-/* MENU PRINCIPAL (Cardápio / Pesquisa) */
+/* MENU */
 .menu-container {
   width: 100%;
   height: 100%;
   display: flex;
-  gap: 3rem;
   justify-content: center;
   align-items: center;
-  /* quase transparente, só pra destacar um pouco os botões */
-  background: rgba(0, 0, 0, 0.08);
+  gap: 3rem;
+
+  /* totalmente transparente */
+  background: rgba(0,0,0,0) !important;
 }
 
 .menu-button {
-  padding: 2.5rem 3.5rem;
-  min-width: 260px;
-  font-size: 1.8rem;
-  border-radius: 1.5rem;
-  border: none;
+  padding: 2rem 3rem;
+  font-size: 2rem;
+  border-radius: 1rem;
   cursor: pointer;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  background: white;
+  color: black;
 }
 
-.menu-button.primary {
-  background: linear-gradient(135deg, #00b4d8, #48cae4);
-  color: #0f172a;
-}
-
-.menu-button.secondary {
-  background: rgba(15, 23, 42, 0.96);
-  color: #e5e7eb;
-  border: 1px solid rgba(148, 163, 184, 0.8);
-}
-
-.menu-button:active {
-  transform: translateY(3px) scale(0.98);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
-}
-
-/* CONTEÚDO EM TELA CHEIA (CARDÁPIO / PESQUISA) */
-/* super leve pra não “matar” o vídeo atrás */
-#content-overlay {
-  background: rgba(0, 0, 0, 0.05);
-}
-
+/* CONTEÚDO SEM FUNDO ESCURO */
 #content-frame {
   width: 100vw;
   height: 100vh;
   border: none;
-}
-
-/* Responsivo (só por segurança) */
-@media (max-width: 768px) {
-  .menu-container {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .menu-button {
-    padding: 1.5rem 2rem;
-    font-size: 1.4rem;
-    min-width: 220px;
-  }
 }
