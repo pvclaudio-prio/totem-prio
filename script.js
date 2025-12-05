@@ -5,7 +5,7 @@
 const CARDAPIO_URL =
   "https://stgpriobi.blob.core.windows.net/cardapio-prio/cardapio.pdf";
 
-const PESQUISA_URL = "https://forms.office.com/r/ir14RyyP54";
+const PESQUISA_URL = "https://forms.office.com/Pages/ResponsePage.aspx?id=JQuXkDx_s0i_KpnAVRB3l2Tj7QFwHDhEvtEfXQO1KuNUM1M0NUZaSFFCR1Y0Q01EWUZTOERXM1NWVi4u";
 
 const INACTIVITY_TIMEOUT = 30 * 1000; // 30 segundos
 
@@ -17,9 +17,13 @@ const INACTIVITY_TIMEOUT = 30 * 1000; // 30 segundos
 // ========================================
 
 const videoPlaylist = [
-  "videos/video1.mp4",
-  "videos/video2.mp4",
-  "videos/video3.mp4"
+  "videos/Eat pray love PRIO_C2_1080p_VERT.mp4",
+  "videos/PRIO_Reforço Cultura PRIO_Peça 2_Tablet.mp4",
+  "videos/PRIO_Reforço Cultura PRIO_Peça 3_Tablet.mp4",
+  "videos/PRIO_Reforço Cultura PRIO_Peça 4_Tablet.mp4",
+  "videos/PRIO_Reforço Cultura PRIO_Peça 5_Tablet.mp4",
+  "videos/PRIO_Reforço Cultura PRIO_Peça 7_Tablet.mp4",
+  "videos/PRIO_Reforço Cultura PRIO_Peça 9_Tablet.mp4"
 ];
 
 let currentVideoIndex = 0;
