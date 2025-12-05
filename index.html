@@ -8,12 +8,12 @@
 </head>
 <body>
   <!-- VÍDEO EM TELA CHEIA -->
-  <video id="background-video" autoplay muted loop playsinline>
+  <video id="background-video" autoplay muted playsinline>
     <source id="video-source" src="videos/video1.mp4" type="video/mp4" />
     Seu navegador não suporta vídeo em HTML5.
   </video>
 
-  <!-- MENU (aparece só quando clicar na tela) -->
+  <!-- MENU (só quando clicar na tela) -->
   <div id="menu-overlay" class="hidden">
     <div class="menu-container">
       <button id="btn-cardapio" class="menu-button primary">
@@ -25,8 +25,12 @@
     </div>
   </div>
 
-  <!-- CONTEÚDO (cardápio / pesquisa em tela cheia) -->
+  <!-- CONTEÚDO (Cardápio / Pesquisa) -->
   <div id="content-overlay" class="hidden">
+    <div class="content-header">
+      <button id="btn-voltar" class="back-button">⟵ Voltar para o vídeo</button>
+      <span id="content-title">Conteúdo</span>
+    </div>
     <iframe id="content-frame" src="" frameborder="0"></iframe>
   </div>
 

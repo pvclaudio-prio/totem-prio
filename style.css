@@ -1,3 +1,4 @@
+/* Reset básico */
 * {
   margin: 0;
   padding: 0;
@@ -8,10 +9,11 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background:none;
+  background: none;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-/* VÍDEO */
+/* VÍDEO EM TELA CHEIA */
 #background-video {
   position: fixed;
   top: 0;
@@ -20,51 +22,119 @@ html, body {
   height: 100vh;
   object-fit: cover;
   z-index: 1;
+  transition: filter 0.3s ease;
 }
 
-/* SEM QUALQUER ESCURECIMENTO */
+/* Blur leve só quando menu / conteúdo estiver ativo */
 .video-blurred {
-  filter: none !important;
+  filter: blur(2px);
 }
 
-/* OVERLAYS */
-.hidden {
-  display: none !important;
-}
-
+/* Overlays */
 #menu-overlay,
 #content-overlay {
   position: fixed;
   inset: 0;
   z-index: 2;
-  background: none !important;
 }
 
-/* MENU */
+/* Esconder elementos */
+.hidden {
+  display: none !important;
+}
+
+/* MENU PRINCIPAL */
 .menu-container {
   width: 100%;
   height: 100%;
   display: flex;
+  gap: 3rem;
   justify-content: center;
   align-items: center;
-  gap: 3rem;
-
-  /* totalmente transparente */
-  background: rgba(0,0,0,0) !important;
+  background: rgba(0, 0, 0, 0.08);
 }
 
 .menu-button {
-  padding: 2rem 3rem;
-  font-size: 2rem;
-  border-radius: 1rem;
+  padding: 2.5rem 3.5rem;
+  min-width: 260px;
+  font-size: 1.8rem;
+  border-radius: 1.5rem;
+  border: none;
   cursor: pointer;
-  background: white;
-  color: black;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* CONTEÚDO SEM FUNDO ESCURO */
+.menu-button.primary {
+  background: linear-gradient(135deg, #00b4d8, #48cae4);
+  color: #0f172a;
+}
+
+.menu-button.secondary {
+  background: rgba(15, 23, 42, 0.96);
+  color: #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+}
+
+.menu-button:active {
+  transform: translateY(3px) scale(0.98);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* CONTEÚDO (CARDÁPIO / PESQUISA) */
+#content-overlay {
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.content-header {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  background: linear-gradient(90deg, #020617, #1d4ed8);
+  color: #e5e7eb;
+  gap: 12px;
+}
+
+.back-button {
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+#content-title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
 #content-frame {
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 56px);
   border: none;
+}
+
+/* Responsivo (só por segurança) */
+@media (max-width: 768px) {
+  .menu-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .menu-button {
+    padding: 1.5rem 2rem;
+    font-size: 1.4rem;
+    min-width: 220px;
+  }
+
+  #content-frame {
+    height: calc(100vh - 56px);
+  }
 }

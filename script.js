@@ -6,12 +6,10 @@ const CARDAPIO_URL =
   "https://apps.powerapps.com/play/e/default-90970b25-7f3c-48b3-bf2a-99c055107797/a/80653f2e-306c-4dad-a6c8-e8d914f8dac1?tenantId=90970b25-7f3c-48b3-bf2a-99c055107797&hint=961d2266-9a54-4902-8535-7c415cd5deba&sourcetime=1748260909347&source=portal&hidenavbar=true";
 
 const PESQUISA_URL =
-  "https://forms.office.com/Pages/DesignPageV2.aspx?prevorigin=shell&origin=NeoPortalPage&subpage=design&id=JQuXkDx_s0i_KpnAVRB3l_rsk8BvsM9AvDuc1kudjcdUOUZHNjRKM09NQktKVENZWVhaUU1GWElQNi4u";
+  "https://forms.office.com/Pages/ResponsePage.aspx?id=JQuXkDx_s0i_KpnAVRB3l_rsk8BvsM9AvDuc1kudjcdUOUZHNjRKM09NQktKVENZWVhaUU1GWElQNi4u";
 
 // Tempo de inatividade (ms)
 const INACTIVITY_TIMEOUT = 90 * 1000; // 90 segundos
-
-
 
 // ========================================
 // PLAYLIST DE VÍDEOS
@@ -25,25 +23,21 @@ const videoPlaylist = [
 
 let currentVideoIndex = 0;
 
-
-
 // ========================================
-// ESTADOS DA APLICAÇÃO
+// ESTADOS
 // ========================================
 
 const STATES = {
   IDLE: "idle",       // Vídeo passando
   MENU: "menu",       // Menu aberto
-  CONTENT: "content"  // Cardápio ou pesquisa
+  CONTENT: "content"  // Cardápio ou Pesquisa
 };
 
 let currentState = STATES.IDLE;
 let inactivityTimer = null;
 
-
-
 // ========================================
-// ELEMENTOS DA TELA
+// ELEMENTOS
 // ========================================
 
 const videoEl = document.getElementById("background-video");
@@ -55,8 +49,8 @@ const contentFrame = document.getElementById("content-frame");
 
 const btnCardapio = document.getElementById("btn-cardapio");
 const btnPesquisa = document.getElementById("btn-pesquisa");
-
-
+const btnVoltar = document.getElementById("btn-voltar");
+const contentTitle = document.getElementById("content-title");
 
 // ========================================
 // TROCA DE ESTADO
@@ -88,13 +82,17 @@ function setState(newState) {
   }
 }
 
-
-
 // ========================================
 // PLAYLIST AUTOMÁTICA
 // ========================================
 
 function setupVideoPlaylist() {
+  // começa do primeiro vídeo explicitamente
+  currentVideoIndex = 0;
+  videoSource.src = videoPlaylist[currentVideoIndex];
+  videoEl.load();
+  videoEl.play().catch(() => {});
+
   videoEl.addEventListener("ended", () => {
     currentVideoIndex = (currentVideoIndex + 1) % videoPlaylist.length;
     videoSource.src = videoPlaylist[currentVideoIndex];
@@ -102,8 +100,6 @@ function setupVideoPlaylist() {
     videoEl.play().catch(() => {});
   });
 }
-
-
 
 // ========================================
 // INATIVIDADE
@@ -124,8 +120,6 @@ function handleUserInteraction() {
   }
 }
 
-
-
 // ========================================
 // EVENTOS
 // ========================================
@@ -138,6 +132,7 @@ function setupEventListeners() {
   btnCardapio.addEventListener("click", e => {
     e.stopPropagation();
     resetInactivityTimer();
+    contentTitle.textContent = "Cardápio";
     contentFrame.src = CARDAPIO_URL;
     setState(STATES.CONTENT);
   });
@@ -145,12 +140,17 @@ function setupEventListeners() {
   btnPesquisa.addEventListener("click", e => {
     e.stopPropagation();
     resetInactivityTimer();
+    contentTitle.textContent = "Pesquisa";
     contentFrame.src = PESQUISA_URL;
     setState(STATES.CONTENT);
   });
+
+  btnVoltar.addEventListener("click", e => {
+    e.stopPropagation();
+    resetInactivityTimer();
+    setState(STATES.IDLE);
+  });
 }
-
-
 
 // ========================================
 // INICIALIZAÇÃO
