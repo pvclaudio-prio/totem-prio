@@ -3,27 +3,26 @@
 // ========================================
 
 const CARDAPIO_URL =
-  "https://stgpriobi.blob.core.windows.net/cardapio-prio/cardapio.pdf";
+  "https://apps.powerapps.com/play/e/default-90970b25-7f3c-48b3-bf2a-99c055107797/a/80653f2e-306c-4dad-a6c8-e8d914f8dac1?tenantId=90970b25-7f3c-48b3-bf2a-99c055107797&hint=961d2266-9a54-4902-8535-7c415cd5deba&sourcetime=1748260909347&source=portal&hidenavbar=true";
 
-const PESQUISA_URL = "https://forms.office.com/Pages/ResponsePage.aspx?id=JQuXkDx_s0i_KpnAVRB3l2Tj7QFwHDhEvtEfXQO1KuNUM1M0NUZaSFFCR1Y0Q01EWUZTOERXM1NWVi4u";
+const PESQUISA_URL = "https://forms.office.com/r/ir14RyyP54";
 
-const INACTIVITY_TIMEOUT = 30 * 1000; // 30 segundos
+const INACTIVITY_TIMEOUT = 90 * 1000;
 
 
 
 // ========================================
 // PLAYLIST DE VÍDEOS
-// (se tiver só 1 vídeo, mantém o mesmo)
 // ========================================
 
 const videoPlaylist = [
-  "videos/Eat pray love PRIO_C2_1080p_VERT.mp4",
-  "videos/PRIO_Reforço Cultura PRIO_Peça 2_Tablet.mp4",
-  "videos/PRIO_Reforço Cultura PRIO_Peça 3_Tablet.mp4",
-  "videos/PRIO_Reforço Cultura PRIO_Peça 4_Tablet.mp4",
-  "videos/PRIO_Reforço Cultura PRIO_Peça 5_Tablet.mp4",
-  "videos/PRIO_Reforço Cultura PRIO_Peça 7_Tablet.mp4",
-  "videos/PRIO_Reforço Cultura PRIO_Peça 9_Tablet.mp4"
+  "videos/eat_pray_love_prio_c2_1080p_vert.mp4",
+  "videos/prio_reforco_cultura_peca_2_tablet.mp4",
+  "videos/prio_reforco_cultura_peca_3_tablet.mp4",
+  "videos/prio_reforco_cultura_peca_4_tablet.mp4",
+  "videos/prio_reforco_cultura_peca_5_tablet.mp4",
+  "videos/prio_reforco_cultura_peca_7_tablet.mp4",
+  "videos/prio_reforco_cultura_peca_9_tablet.mp4"
 ];
 
 let currentVideoIndex = 0;
@@ -31,13 +30,13 @@ let currentVideoIndex = 0;
 
 
 // ========================================
-// ESTADOS DA APLICAÇÃO
+// ESTADOS
 // ========================================
 
 const STATES = {
-  IDLE: "idle",       // Vídeo passando
-  MENU: "menu",       // Menu aberto
-  CONTENT: "content"  // Cardápio ou Pesquisa
+  IDLE: "idle",
+  MENU: "menu",
+  CONTENT: "content"
 };
 
 let currentState = STATES.IDLE;
@@ -46,7 +45,7 @@ let inactivityTimer = null;
 
 
 // ========================================
-// ELEMENTOS DA PÁGINA
+// ELEMENTOS
 // ========================================
 
 const videoEl = document.getElementById("background-video");
@@ -59,7 +58,6 @@ const contentFrame = document.getElementById("content-frame");
 const btnCardapio = document.getElementById("btn-cardapio");
 const btnPesquisa = document.getElementById("btn-pesquisa");
 const btnVoltar = document.getElementById("btn-voltar");
-const contentTitle = document.getElementById("content-title");
 
 
 
@@ -69,7 +67,6 @@ const contentTitle = document.getElementById("content-title");
 
 function setState(newState) {
   currentState = newState;
-  console.log("Estado:", currentState);
 
   switch (currentState) {
     case STATES.IDLE:
@@ -96,24 +93,22 @@ function setState(newState) {
 
 
 // ========================================
-// PLAYLIST DE VÍDEOS
+// PLAYLIST
 // ========================================
 
 function setupVideoPlaylist() {
-  // Começa no primeiro vídeo definido na playlist
   if (videoPlaylist.length > 0) {
     currentVideoIndex = 0;
     videoSource.src = videoPlaylist[currentVideoIndex];
     videoEl.load();
-    videoEl.play().catch(() => {});
+    videoEl.play();
   }
 
   videoEl.addEventListener("ended", () => {
-    if (videoPlaylist.length === 0) return;
     currentVideoIndex = (currentVideoIndex + 1) % videoPlaylist.length;
     videoSource.src = videoPlaylist[currentVideoIndex];
     videoEl.load();
-    videoEl.play().catch(() => {});
+    videoEl.play();
   });
 }
 
@@ -131,12 +126,6 @@ function resetInactivityTimer() {
   }, INACTIVITY_TIMEOUT);
 }
 
-/**
- * Clique / toque global:
- * - Se estiver em IDLE -> abre o menu
- * - Se estiver em MENU -> fecha o menu
- * - Se estiver em CONTENT -> ignora (usuário usa o botão Voltar)
- */
 function handleGlobalInteraction() {
   resetInactivityTimer();
 
@@ -154,41 +143,33 @@ function handleGlobalInteraction() {
 // ========================================
 
 function setupEventListeners() {
-  // Clique/toque em qualquer lugar da tela
   ["click", "touchstart"].forEach(evt =>
     document.addEventListener(evt, handleGlobalInteraction)
   );
 
-  // Botão: Cardápio
   btnCardapio.addEventListener("click", e => {
-    e.stopPropagation(); // evita que o clique "conte" como clique global
+    e.stopPropagation();
     resetInactivityTimer();
-    contentTitle.textContent = "Cardápio";
     contentFrame.src = CARDAPIO_URL;
     setState(STATES.CONTENT);
   });
 
-  // Botão: Pesquisa
   btnPesquisa.addEventListener("click", e => {
     e.stopPropagation();
     resetInactivityTimer();
-    contentTitle.textContent = "Pesquisa";
     contentFrame.src = PESQUISA_URL;
     setState(STATES.CONTENT);
   });
 
-  // Botão: Voltar no head
   btnVoltar.addEventListener("click", e => {
     e.stopPropagation();
     resetInactivityTimer();
     setState(STATES.IDLE);
   });
 
-  // Clique no fundo do menu (overlay) também fecha o menu
+  // Fechar menu ao clicar fora dos botões
   menuOverlay.addEventListener("click", e => {
-    // só fecha se clicou no overlay, não nos botões
     if (e.target === menuOverlay && currentState === STATES.MENU) {
-      resetInactivityTimer();
       setState(STATES.IDLE);
     }
   });
@@ -197,11 +178,11 @@ function setupEventListeners() {
 
 
 // ========================================
-// INICIALIZAÇÃO
+// INIT
 // ========================================
 
 function init() {
-  setupVideoPlaylist();   // mantém seu comportamento atual dos vídeos
+  setupVideoPlaylist();
   setupEventListeners();
   setState(STATES.IDLE);
   resetInactivityTimer();
