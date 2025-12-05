@@ -3,12 +3,14 @@
 // ========================================
 const CARDAPIO_URL = "cardapio/cardapio.pdf#zoom=134";
 
-// Adicionei &embed=true para o Forms respeitar o modo embutido
 const PESQUISA_URL =
   "https://forms.office.com/Pages/ResponsePage.aspx?id=JQuXkDx_s0i_KpnAVRB3l2Tj7QFwHDhEvtEfXQO1KuNUM1M0NUZaSFFCR1Y0Q01EWUZTOERXM1NWVi4u&embed=true";
 
 const INACTIVITY_TIMEOUT = 30 * 1000; // 30 segundos
 
+// sandbox padrão que queremos usar para o Forms
+const FORMS_SANDBOX =
+  "allow-scripts allow-forms allow-same-origin allow-downloads allow-top-navigation-by-user-activation";
 
 
 // ========================================
@@ -27,9 +29,8 @@ const videoPlaylist = [
 let currentVideoIndex = 0;
 
 
-
 // ========================================
-// ESTADOS (sem MENU, botões sempre no IDLE)
+// ESTADOS
 // ========================================
 const STATES = {
   IDLE: "idle",       // vídeo + botões
@@ -38,7 +39,6 @@ const STATES = {
 
 let currentState = STATES.IDLE;
 let inactivityTimer = null;
-
 
 
 // ========================================
@@ -54,7 +54,6 @@ const contentFrame = document.getElementById("content-frame");
 const btnCardapio = document.getElementById("btn-cardapio");
 const btnPesquisa = document.getElementById("btn-pesquisa");
 const btnVoltar = document.getElementById("btn-voltar");
-
 
 
 // ========================================
@@ -83,7 +82,6 @@ function setState(newState) {
 }
 
 
-
 // ========================================
 // PLAYLIST DE VÍDEOS
 // ========================================
@@ -104,7 +102,6 @@ function setupVideoPlaylist() {
 }
 
 
-
 // ========================================
 // INATIVIDADE
 // ========================================
@@ -123,7 +120,6 @@ function handleGlobalInteraction() {
 }
 
 
-
 // ========================================
 // EVENTOS
 // ========================================
@@ -133,19 +129,27 @@ function setupEventListeners() {
     document.addEventListener(evt, handleGlobalInteraction)
   );
 
-  // Botão: Cardápio
+  // Botão: Cardápio (PDF no GitHub)
   btnCardapio.addEventListener("click", (e) => {
     e.stopPropagation();
     resetInactivityTimer();
+
+    // Para PDF funcionar, removemos o sandbox
+    contentFrame.removeAttribute("sandbox");
     contentFrame.src = CARDAPIO_URL;
+
     setState(STATES.CONTENT);
   });
 
-  // Botão: Pesquisa
+  // Botão: Pesquisa (Forms)
   btnPesquisa.addEventListener("click", (e) => {
     e.stopPropagation();
     resetInactivityTimer();
+
+    // Para Forms, ativamos sandbox para evitar abrir nova aba
+    contentFrame.setAttribute("sandbox", FORMS_SANDBOX);
     contentFrame.src = PESQUISA_URL;
+
     setState(STATES.CONTENT);
   });
 
@@ -156,7 +160,6 @@ function setupEventListeners() {
     setState(STATES.IDLE);
   });
 }
-
 
 
 // ========================================
