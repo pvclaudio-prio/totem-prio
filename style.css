@@ -26,9 +26,9 @@ html, body {
   transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
-/* BLUR QUANDO TEM OVERLAY (MENU OU CONTEÚDO) */
+/* QUANDO TIVER OVERLAY: só um blur leve, SEM ESCURECER */
 .video-blurred {
-  filter: blur(3px) brightness(0.8);
+  filter: blur(2px) brightness(1);
 }
 
 /* Overlays por cima do vídeo */
@@ -52,8 +52,8 @@ html, body {
   gap: 3rem;
   justify-content: center;
   align-items: center;
-  /* leve escurecida para destacar os botões */
-  background: rgba(0, 0, 0, 0.25);
+  /* quase transparente, só pra destacar um pouco os botões */
+  background: rgba(0, 0, 0, 0.08);
 }
 
 .menu-button {
@@ -65,7 +65,7 @@ html, body {
   cursor: pointer;
   font-weight: 600;
   letter-spacing: 0.03em;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
   transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
 }
 
@@ -75,7 +75,7 @@ html, body {
 }
 
 .menu-button.secondary {
-  background: rgba(15, 23, 42, 0.95);
+  background: rgba(15, 23, 42, 0.96);
   color: #e5e7eb;
   border: 1px solid rgba(148, 163, 184, 0.8);
 }
@@ -85,9 +85,10 @@ html, body {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
 }
 
-/* CONTEÚDO EM TELA CHEIA (SEM BARRA) */
+/* CONTEÚDO EM TELA CHEIA (CARDÁPIO / PESQUISA) */
+/* super leve pra não “matar” o vídeo atrás */
 #content-overlay {
-  background: rgba(0, 0, 0, 0.3); /* leve escurecida por cima do vídeo */
+  background: rgba(0, 0, 0, 0.05);
 }
 
 #content-frame {
