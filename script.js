@@ -3,11 +3,11 @@
 // ========================================
 
 const CARDAPIO_URL =
-  "https://stgpriobi.blob.core.windows.net/cardapio-prio/cardapio.pdf#zoom=page-width";
+  "https://stgpriobi.blob.core.windows.net/cardapio-prio/cardapio.pdf#zoom=134";
 
 const PESQUISA_URL = "https://forms.office.com/Pages/ResponsePage.aspx?id=JQuXkDx_s0i_KpnAVRB3l2Tj7QFwHDhEvtEfXQO1KuNUM1M0NUZaSFFCR1Y0Q01EWUZTOERXM1NWVi4u";
 
-const INACTIVITY_TIMEOUT = 90 * 1000;
+const INACTIVITY_TIMEOUT = 30 * 1000;
 
 
 
