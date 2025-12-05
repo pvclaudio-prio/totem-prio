@@ -28,7 +28,6 @@ html, body {
 
 /* BLUR QUANDO TEM OVERLAY (MENU OU CONTEÚDO) */
 .video-blurred {
-  /* menos blur e mais brilho para não ficar tão escuro */
   filter: blur(3px) brightness(0.8);
 }
 
@@ -53,7 +52,7 @@ html, body {
   gap: 3rem;
   justify-content: center;
   align-items: center;
-  /* overlay suave, só para destacar os botões */
+  /* leve escurecida para destacar os botões */
   background: rgba(0, 0, 0, 0.25);
 }
 
@@ -86,44 +85,14 @@ html, body {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
 }
 
-/* CONTEÚDO (CARDÁPIO / PESQUISA EM IFRAME) */
+/* CONTEÚDO EM TELA CHEIA (SEM BARRA) */
 #content-overlay {
-  display: flex;
-  flex-direction: column;
-  background: rgba(3, 6, 23, 0.92);
-}
-
-.content-header {
-  height: 56px;
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  background: linear-gradient(90deg, rgba(15, 23, 42, 0.95), rgba(30, 64, 175, 0.95));
-  border-bottom: 1px solid rgba(148, 163, 184, 0.4);
-}
-
-.back-button {
-  padding: 0.4rem 0.9rem;
-  margin-right: 1rem;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.9);
-  background: rgba(15, 23, 42, 0.9);
-  color: #e5e7eb;
-  cursor: pointer;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-#content-title {
-  font-weight: 600;
-  font-size: 1rem;
+  background: rgba(0, 0, 0, 0.3); /* leve escurecida por cima do vídeo */
 }
 
 #content-frame {
   width: 100vw;
-  height: calc(100vh - 56px);
+  height: 100vh;
   border: none;
 }
 
@@ -138,9 +107,5 @@ html, body {
     padding: 1.5rem 2rem;
     font-size: 1.4rem;
     min-width: 220px;
-  }
-
-  #content-frame {
-    height: calc(100vh - 56px);
   }
 }
