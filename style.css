@@ -5,15 +5,17 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   overflow: hidden;
   background: none;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
 }
 
-/* Vídeo */
+/* Vídeo em tela cheia */
 #background-video {
   position: fixed;
   top: 0;
@@ -22,14 +24,16 @@ html, body {
   height: 100vh;
   object-fit: cover;
   z-index: 1;
+  /* mantemos a transição caso queira no futuro, mas sem blur */
   transition: filter 0.25s ease;
 }
 
+/* Não usamos mais blur, mas deixo a classe neutra */
 .video-blurred {
-  filter: blur(3px);
+  filter: none !important;
 }
 
-/* Overlays */
+/* Overlays principais */
 #menu-overlay,
 #content-overlay {
   position: fixed;
@@ -42,7 +46,7 @@ html, body {
 }
 
 /* ================================
-   MENU PRINCIPAL
+   MENU PRINCIPAL (sempre visível no modo vídeo)
    ================================ */
 
 .menu-container {
@@ -52,7 +56,7 @@ html, body {
   gap: 3rem;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.08); /* leve véu por cima do vídeo */
 }
 
 .menu-button {
@@ -68,12 +72,14 @@ html, body {
   transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
 }
 
+/* PRIO-style: azul petróleo discreto */
 .menu-button.primary {
   background: linear-gradient(135deg, #005f8f, #0077b6);
   color: #f1f5f9;
   opacity: 0.94;
 }
 
+/* Botão mais sóbrio para pesquisa */
 .menu-button.secondary {
   background: rgba(15, 23, 42, 0.9);
   color: #e2e8f0;
@@ -84,10 +90,12 @@ html, body {
 .menu-button:hover {
   opacity: 1;
   transform: scale(1.03);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
 }
 
 .menu-button:active {
   transform: scale(0.97);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
 }
 
 /* ================================
@@ -97,10 +105,10 @@ html, body {
 #content-overlay {
   display: flex;
   flex-direction: column;
-  background: rgba(0,0,0,0.05);
+  background: rgba(0, 0, 0, 0.05);
 }
 
-/* iframe ocupa tela inteira exceto o botão inferior */
+/* iframe ocupa a maior parte da tela */
 #content-frame {
   width: 100vw;
   height: calc(100vh - 120px);
@@ -114,10 +122,14 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(2,6,23,0.85) 70%);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(2, 6, 23, 0.85) 70%
+  );
 }
 
-/* Botão de voltar no estilo PRIO */
+/* Botão de voltar grande, estilo PRIO */
 .back-button-large {
   background: linear-gradient(135deg, #005f8f, #0077b6);
   color: #f1f5f9;
@@ -126,7 +138,7 @@ html, body {
   font-size: 1.6rem;
   cursor: pointer;
   border: none;
-  box-shadow: 0 14px 30px rgba(0,0,0,0.4);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4);
   opacity: 0.94;
 }
 
@@ -135,3 +147,23 @@ html, body {
   transform: scale(1.03);
 }
 
+/* ================================
+   RESPONSIVO (backup)
+   ================================ */
+
+@media (max-width: 768px) {
+  .menu-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .menu-button {
+    padding: 1.6rem 2.2rem;
+    font-size: 1.4rem;
+    min-width: 220px;
+  }
+
+  #content-frame {
+    height: calc(100vh - 120px);
+  }
+}
