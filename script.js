@@ -1,18 +1,21 @@
-// ================================
-// CONFIGURAÇÕES DO SISTEMA
-// ================================
+// ========================================
+// CONFIGURAÇÕES DO SISTEMA (SEUS LINKS)
+// ========================================
 
-// TROQUE pelos links reais:
-const CARDAPIO_URL = "https://example.com/cardapio";   // TROCAR
-const PESQUISA_URL = "https://example.com/pesquisa";   // TROCAR
+const CARDAPIO_URL =
+  "https://apps.powerapps.com/play/e/default-90970b25-7f3c-48b3-bf2a-99c055107797/a/80653f2e-306c-4dad-a6c8-e8d914f8dac1?tenantId=90970b25-7f3c-48b3-bf2a-99c055107797&hint=961d2266-9a54-4902-8535-7c415cd5deba&sourcetime=1748260909347&source=portal&hidenavbar=true";
+
+const PESQUISA_URL =
+  "https://forms.office.com/Pages/DesignPageV2.aspx?prevorigin=shell&origin=NeoPortalPage&subpage=design&id=JQuXkDx_s0i_KpnAVRB3l_rsk8BvsM9AvDuc1kudjcdUQ01GM0RDRzJSQlFBWDVMUFAwRlAzU1dOSi4u";
 
 // Tempo de inatividade (ms)
 const INACTIVITY_TIMEOUT = 90 * 1000; // 90 segundos
 
 
-// ================================
+
+// ========================================
 // PLAYLIST DE VÍDEOS
-// ================================
+// ========================================
 
 const videoPlaylist = [
   "videos/video1.mp4",
@@ -23,23 +26,25 @@ const videoPlaylist = [
 let currentVideoIndex = 0;
 
 
-// ================================
-// ESTADOS
-// ================================
+
+// ========================================
+// ESTADOS DA APLICAÇÃO
+// ========================================
 
 const STATES = {
-  IDLE: "idle",       // Apenas vídeo
-  MENU: "menu",       // Menu com botões
-  CONTENT: "content"  // Cardápio ou Pesquisa (iframe)
+  IDLE: "idle",       // Vídeo passando
+  MENU: "menu",       // Menu aberto
+  CONTENT: "content"  // Cardápio ou pesquisa
 };
 
 let currentState = STATES.IDLE;
 let inactivityTimer = null;
 
 
-// ================================
-// ELEMENTOS
-// ================================
+
+// ========================================
+// ELEMENTOS DA TELA
+// ========================================
 
 const videoEl = document.getElementById("background-video");
 const videoSource = document.getElementById("video-source");
@@ -52,17 +57,17 @@ const btnCardapio = document.getElementById("btn-cardapio");
 const btnPesquisa = document.getElementById("btn-pesquisa");
 
 
-// ================================
-// FUNÇÃO: TROCA DE ESTADO
-// ================================
+
+// ========================================
+// TROCA DE ESTADO
+// ========================================
 
 function setState(newState) {
   currentState = newState;
-  console.log("Estado →", currentState);
+  console.log("Estado:", currentState);
 
   switch (currentState) {
     case STATES.IDLE:
-      // Somente vídeo, sem blur nem overlays
       menuOverlay.classList.add("hidden");
       contentOverlay.classList.add("hidden");
       videoEl.classList.remove("video-blurred");
@@ -70,14 +75,12 @@ function setState(newState) {
       break;
 
     case STATES.MENU:
-      // Mostra botões sobre o vídeo (com blur leve)
       menuOverlay.classList.remove("hidden");
       contentOverlay.classList.add("hidden");
       videoEl.classList.add("video-blurred");
       break;
 
     case STATES.CONTENT:
-      // Mostra iframe (cardápio ou pesquisa) em tela cheia, com vídeo desfocado ao fundo
       menuOverlay.classList.add("hidden");
       contentOverlay.classList.remove("hidden");
       videoEl.classList.add("video-blurred");
@@ -86,9 +89,10 @@ function setState(newState) {
 }
 
 
-// ================================
-// PLAYLIST DE VÍDEOS
-// ================================
+
+// ========================================
+// PLAYLIST AUTOMÁTICA
+// ========================================
 
 function setupVideoPlaylist() {
   videoEl.addEventListener("ended", () => {
@@ -100,20 +104,19 @@ function setupVideoPlaylist() {
 }
 
 
-// ================================
-// TIMER DE INATIVIDADE
-// ================================
+
+// ========================================
+// INATIVIDADE
+// ========================================
 
 function resetInactivityTimer() {
   if (inactivityTimer) clearTimeout(inactivityTimer);
 
   inactivityTimer = setTimeout(() => {
-    // se ninguém mexer, volta pro vídeo puro
     setState(STATES.IDLE);
   }, INACTIVITY_TIMEOUT);
 }
 
-// Clique/toque na tela → abre o menu (se estiver em vídeo)
 function handleUserInteraction() {
   resetInactivityTimer();
   if (currentState === STATES.IDLE) {
@@ -122,17 +125,16 @@ function handleUserInteraction() {
 }
 
 
-// ================================
+
+// ========================================
 // EVENTOS
-// ================================
+// ========================================
 
 function setupEventListeners() {
-  // Abertura do menu só em click/touch
   ["click", "touchstart"].forEach(evt =>
     document.addEventListener(evt, handleUserInteraction)
   );
 
-  // Botão: Cardápio
   btnCardapio.addEventListener("click", e => {
     e.stopPropagation();
     resetInactivityTimer();
@@ -140,7 +142,6 @@ function setupEventListeners() {
     setState(STATES.CONTENT);
   });
 
-  // Botão: Pesquisa
   btnPesquisa.addEventListener("click", e => {
     e.stopPropagation();
     resetInactivityTimer();
@@ -150,15 +151,15 @@ function setupEventListeners() {
 }
 
 
-// ================================
+
+// ========================================
 // INICIALIZAÇÃO
-// ================================
+// ========================================
 
 function init() {
-  console.log("Sistema iniciado.");
   setupVideoPlaylist();
   setupEventListeners();
-  setState(STATES.IDLE);     // começa só com o vídeo
+  setState(STATES.IDLE);
   resetInactivityTimer();
 }
 
