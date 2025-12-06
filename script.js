@@ -1,19 +1,14 @@
 // ========================================
 // CONFIGURAÇÕES (seus links)
 // ========================================
+const CARDAPIO_URL =
+  "https://stgpriobi.blob.core.windows.net/cardapio-prio/cardapio.pdf#zoom=134";
 
-// O cardápio agora é uma IMAGEM (PNG) hospedada no GitHub
-const CARDAPIO_URL = "cardapio/cardapio.png";
-
-// Microsoft Forms com embed para evitar abrir aba nova
 const PESQUISA_URL =
-  "https://forms.office.com/Pages/ResponsePage.aspx?id=JQuXkDx_s0i_KpnAVRB3l2Tj7QFwHDhEvtEfXQO1KuNUM1M0NUZaSFFCR1Y0Q01EWUZTOERXM1NWVi4u&embed=true";
+  "https://forms.office.com/Pages/ResponsePage.aspx?id=JQuXkDx_s0i_KpnAVRB3l2Tj7QFwHDhEvtEfXQO1KuNUM1M0NUZaSFFCR1Y0Q01EWUZTOERXM1NWVi4u";
 
-const INACTIVITY_TIMEOUT = 30 * 1000;
+const INACTIVITY_TIMEOUT = 30 * 1000; // 30 segundos
 
-// Sandbox ideal para o Forms (não para imagem PNG)
-const FORMS_SANDBOX =
-  "allow-scripts allow-forms allow-same-origin allow-downloads allow-top-navigation-by-user-activation";
 
 
 // ========================================
@@ -32,16 +27,17 @@ const videoPlaylist = [
 let currentVideoIndex = 0;
 
 
+
 // ========================================
-// ESTADOS
-// ========================================
+// ESTADOS — SEM MENU!
 const STATES = {
-  IDLE: "idle",
-  CONTENT: "content"
+  IDLE: "idle",       // Vídeo + botões sempre visíveis
+  CONTENT: "content"  // Visualizando cardápio/formulário
 };
 
 let currentState = STATES.IDLE;
 let inactivityTimer = null;
+
 
 
 // ========================================
@@ -50,7 +46,7 @@ let inactivityTimer = null;
 const videoEl = document.getElementById("background-video");
 const videoSource = document.getElementById("video-source");
 
-const menuOverlay = document.getElementById("menu-overlay");
+const menuOverlay = document.getElementById("menu-overlay"); // sempre visível no IDLE
 const contentOverlay = document.getElementById("content-overlay");
 const contentFrame = document.getElementById("content-frame");
 
@@ -59,29 +55,36 @@ const btnPesquisa = document.getElementById("btn-pesquisa");
 const btnVoltar = document.getElementById("btn-voltar");
 
 
+
 // ========================================
-// ESTADOS
+// TROCA DE ESTADO FINAL
 // ========================================
 function setState(newState) {
   currentState = newState;
+  console.log("Estado:", currentState);
 
   switch (newState) {
     case STATES.IDLE:
+      // Mostrar botões, esconder conteúdo
       menuOverlay.classList.remove("hidden");
       contentOverlay.classList.add("hidden");
+      videoEl.classList.remove("video-blurred");
       contentFrame.src = "about:blank";
       break;
 
     case STATES.CONTENT:
+      // Esconder botões e mostrar conteúdo + botão voltar
       menuOverlay.classList.add("hidden");
       contentOverlay.classList.remove("hidden");
+      videoEl.classList.remove("video-blurred");
       break;
   }
 }
 
 
+
 // ========================================
-// PLAYLIST
+// PLAYLIST DE VÍDEOS
 // ========================================
 function setupVideoPlaylist() {
   if (videoPlaylist.length > 0) {
@@ -100,52 +103,52 @@ function setupVideoPlaylist() {
 }
 
 
+
 // ========================================
-// INATIVIDADE
+// INATIVIDADE — SEM MENU
 // ========================================
 function resetInactivityTimer() {
   if (inactivityTimer) clearTimeout(inactivityTimer);
-  inactivityTimer = setTimeout(() => setState(STATES.IDLE), INACTIVITY_TIMEOUT);
+
+  inactivityTimer = setTimeout(() => {
+    // Em qualquer estado retorna aos botões + vídeo
+    setState(STATES.IDLE);
+  }, INACTIVITY_TIMEOUT);
 }
 
+// Clique global apenas reseta o timer
 function handleGlobalInteraction() {
   resetInactivityTimer();
 }
+
 
 
 // ========================================
 // EVENTOS
 // ========================================
 function setupEventListeners() {
+  // Reset de inatividade ao clicar em qualquer lugar
   ["click", "touchstart"].forEach(evt =>
     document.addEventListener(evt, handleGlobalInteraction)
   );
 
-  // Cardápio (PNG)
+  // Botão: Cardápio
   btnCardapio.addEventListener("click", e => {
     e.stopPropagation();
     resetInactivityTimer();
-
-    // Para imagem, REMOVEMOS o sandbox
-    contentFrame.removeAttribute("sandbox");
-
     contentFrame.src = CARDAPIO_URL;
     setState(STATES.CONTENT);
   });
 
-  // Pesquisa (Forms)
+  // Botão: Pesquisa
   btnPesquisa.addEventListener("click", e => {
     e.stopPropagation();
     resetInactivityTimer();
-
-    // Para Forms, precisamos DO sandbox
-    contentFrame.setAttribute("sandbox", FORMS_SANDBOX);
-
     contentFrame.src = PESQUISA_URL;
     setState(STATES.CONTENT);
   });
 
-  // Voltar ao vídeo
+  // Botão: Voltar
   btnVoltar.addEventListener("click", e => {
     e.stopPropagation();
     resetInactivityTimer();
@@ -154,13 +157,14 @@ function setupEventListeners() {
 }
 
 
+
 // ========================================
 // INIT
 // ========================================
 function init() {
   setupVideoPlaylist();
   setupEventListeners();
-  setState(STATES.IDLE);
+  setState(STATES.IDLE); // vídeo + botões
   resetInactivityTimer();
 }
 
